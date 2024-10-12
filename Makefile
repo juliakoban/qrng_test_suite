@@ -1,10 +1,20 @@
 PYTHON = python3
 TEST_DIR = unittests  
 
-all: run
+FILE ?= ./data/QNGFile.dat
+BITS ?= 20000
+BITSTREAMS ?= 100
+
+all: run_default
 
 run:
+	$(PYTHON) main.py --file $(FILE) --bits $(BITS) --bitstreams $(BITSTREAMS)
+
+run_default:
 	$(PYTHON) main.py
+
+help:
+	$(PYTHON) main.py --help
 
 test:
 	$(PYTHON) -m unittest discover -s $(TEST_DIR)

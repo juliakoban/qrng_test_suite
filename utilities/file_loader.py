@@ -3,7 +3,6 @@ import os
 ASCII_TYPE  = "ascii"
 BINARY_TYPE = "binary"
 
-
 def file_type( path ):
     try:
         with open( path, "r" ) as f:
@@ -14,14 +13,16 @@ def file_type( path ):
 
 def load_binary_file( path ):
     with open( path, "rb" ) as f:
-        content = f.read( )
+        content = f.read( 20000 // 8  )
     sequence = ''.join(f'{byte:08b}' for byte in content)
+    # print( len( sequence ) )
     return sequence
 
 def load_ascii_file( path ):
     with open( path, "r" ) as f:
         content = f.read( )
     sequence = ''.join(f'{ord(char):08b}' for char in content)
+    # print( sequence )
     return sequence
 
 def load_file( path ):
