@@ -15,14 +15,12 @@ def load_binary_file( path, bits, bitstreams ):
     with open( path, "rb" ) as f:
         content = f.read( ( bits * bitstreams ) // BITS_IN_BYTE  )
     sequence = ''.join(f'{byte:08b}' for byte in content)
-    # print( len( sequence ) )
     return sequence
 
 def load_ascii_file( path, bits, bitstreams ):
     with open( path, "r" ) as f:
         content = f.read( ( bits * bitstreams ) // BITS_IN_BYTE )
     sequence = ''.join(f'{ord(char):08b}' for char in content)
-    # print( sequence )
     return sequence
 
 def load_file( path, bits, bitstreams ):

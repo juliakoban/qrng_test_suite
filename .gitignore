@@ -12,6 +12,7 @@ __pycache__/
 
 # my data folder
 data/
+output/
 
 # Distribution / packaging
 .Python
