@@ -29,8 +29,11 @@ def test_result( hist, p_value_chi, p_value_ks, test_name ):
     final_output = f"{output_hist} {p_value_chi:.6f}       | {p_value_ks:.6f}    | {test_name}        |\n"
     final_output += "-" * HEADER_LENGTH + "\n" 
     return final_output
-    
-def write_to_file( hist, p_value_chi, p_value_ks, test_name ):
+
+def write_header_to_file( ):
     with open( OUTPUT_FILE, 'w' ) as f:
         f.write( header() )
+    
+def write_to_file( hist, p_value_chi, p_value_ks, test_name ):
+    with open( OUTPUT_FILE, 'a' ) as f:
         f.write( test_result( hist, p_value_chi, p_value_ks, test_name ) )

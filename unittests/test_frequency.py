@@ -1,5 +1,5 @@
 import unittest
-from tests.frequency import frequency
+from tests.frequency import frequency_test
 
 class TestFrequency(unittest.TestCase):
 
@@ -10,11 +10,11 @@ class TestFrequency(unittest.TestCase):
         ]
 
     def test_regular_input(self):
-        result = frequency(self.test_data[0])
+        result = frequency_test(self.test_data[0])
         expected = 0.109599 
         self.assertAlmostEqual( result, expected, places = 5 )
 
     def test_all_zeros(self):
-        result   = frequency(self.test_data[1])
+        result   = frequency_test(self.test_data[1])
         expected = 0.0
         self.assertAlmostEqual(result, expected, places = 5)
