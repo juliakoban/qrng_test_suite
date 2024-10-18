@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 TEST_SUITE_NAME = "DIEHARDEST TEST SUITE"
-HEADER_LABELS   = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0", "P-VALUE(CHI^2)", "P-VALUE(KS)", "STATISTICAL TEST"]
-HEADER_LENGTH   = 109
+HEADER_LABELS   = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0", "P-VALUE(CHI^2)", "P-VALUE(KS)", "PROPORTION", "STATISTICAL TEST"]
+TEST_LABEL_LENGTH = 17
+HEADER_LENGTH   = 122
 OUTPUT_FILE     = "./output/finalResults.txt"
 
 def plot_results(p_values, bins):
@@ -23,10 +24,11 @@ def header( ):
     header_output += "-" * HEADER_LENGTH + "\n"  
     return header_output
 
-def test_result( hist, p_value_chi, p_value_ks, test_name ):
+def test_result( hist, p_value_chi, p_value_ks, proportion, test_name ):
     text_hist    = [f"{num:<3} |" for num in hist]
     output_hist  = " ".join(text_hist)
-    final_output = f"{output_hist} {p_value_chi:.6f}       | {p_value_ks:.6f}    | {test_name}        |\n"
+    final_output = f"{output_hist} {p_value_chi:.6f}       | {p_value_ks:.6f}    | {proportion:.4f}     | {test_name}"
+    final_output += " " * ( TEST_LABEL_LENGTH - len(test_name) ) + "|\n"
     final_output += "-" * HEADER_LENGTH + "\n" 
     return final_output
 
@@ -34,6 +36,6 @@ def write_header_to_file( ):
     with open( OUTPUT_FILE, 'w' ) as f:
         f.write( header() )
     
-def write_to_file( hist, p_value_chi, p_value_ks, test_name ):
+def write_to_file( hist, p_value_chi, p_value_ks, proportion, test_name ):
     with open( OUTPUT_FILE, 'a' ) as f:
-        f.write( test_result( hist, p_value_chi, p_value_ks, test_name ) )
+        f.write( test_result( hist, p_value_chi, p_value_ks, proportion, test_name ) )
