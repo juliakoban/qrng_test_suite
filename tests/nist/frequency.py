@@ -1,6 +1,4 @@
 import math
-import numpy as np
-from utilities.statistics import *
 
 # The focus of the test is the proportion of zeroes and ones for the entire sequence. The purpose of this test
 # is to determine whether the number of ones and zeros in a sequence are approximately the same as would
@@ -9,6 +7,9 @@ from utilities.statistics import *
 # the passing of this test. 
 
 def frequency_test( input ):
+    # input restrictions
+    if len( input ) < 100: return 0.
+    # test
     s_n     = sum( 2 * int(bit) - 1 for bit in input )
     s_obs   = abs( s_n ) / math.sqrt( len( input ) ) 
     p_value = math.erfc( float( s_obs / math.sqrt( 2 ) ) )

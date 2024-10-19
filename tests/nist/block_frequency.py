@@ -1,7 +1,5 @@
 import math
-import numpy as np
 import scipy.special as ss
-from utilities.statistics import *
 
 # The focus of the test is the proportion of ones within M-bit blocks. The purpose of this test is to determine
 # whether the frequency of ones in an M-bit block is approximately M/2, as would be expected under an

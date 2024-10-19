@@ -1,6 +1,6 @@
 import numpy as np
 from .results_printer import write_to_file, write_header_to_file
-from utilities.statistics import *
+from scipy.stats import chisquare, kstest
 
 def run_nist_test( input, test_function ):
     bins = np.arange(0., 1.1, 0.1)
@@ -15,8 +15,8 @@ def run_nist_test( input, test_function ):
     expected_freq = len( p_values ) / ( len( bins ) - 1 )
     expected = [expected_freq] * ( len( bins ) - 1 )
     
-    p_value_chi = chi_squared( hist, expected )
-    p_value_ks  = Kolmogorov_Smirnov( p_values )
+    p_value_chi = chisquare( hist, expected ).pvalue
+    p_value_ks  = kstest( p_values, "uniform" ).pvalue
     proportion  = passed_tests / len( input )
     return [hist, p_value_chi, p_value_ks, proportion]
     

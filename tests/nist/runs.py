@@ -1,6 +1,4 @@
 import math
-import numpy as np
-from utilities.statistics import *
 
 # The focus of this test is the total number of runs in the sequence, where a run is an uninterrupted sequence
 # of identical bits. A run of length k consists of exactly k identical bits and is bounded before and after with
