@@ -2,7 +2,7 @@ PYTHON = python3
 TEST_DIR = unittests  
 
 FILE ?= ./data/QNGFile.dat
-BITS ?= 20000
+BITS ?= 40000
 BITSTREAMS ?= 100
 
 all: run_default

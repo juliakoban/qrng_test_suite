@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 TEST_SUITE_NAME = "DIEHARDEST TEST SUITE"
-HEADER_LABELS   = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0", "P-VALUE(CHI^2)", "P-VALUE(KS)", "PROPORTION", "STATISTICAL TEST"]
-TEST_LABEL_LENGTH = 17
-HEADER_LENGTH   = 122
+HEADER_LABELS   = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0", "P-VALUE(CHI^2)", "P-VALUE(KS)", "PROPORTION", "STATISTICAL TEST  "]
+TEST_LABEL_LENGTH = 19
+HEADER_LENGTH   = 124
 OUTPUT_FILE     = "./output/finalResults.txt"
 
 def plot_results(p_values, bins):

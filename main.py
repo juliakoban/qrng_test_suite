@@ -3,15 +3,12 @@ from utilities.file_loader import *
 from utilities.parse_args import parse_arguments
 from tests.tests_list import nist_tests
 
-from tests.diehard.birthday import run_simulation
-
 def main():
     args = parse_arguments( )
     try:
         file_content = load_file( args.file, args.bits, args.bitstreams ) 
         sequences = [file_content[i:i + args.bits] for i in range( 0, len( file_content ), args.bits)]
         run_nist_tests( nist_tests, sequences )
-        run_simulation( sequences )
     except FileNotFoundError as e:
         print( e )
 

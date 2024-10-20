@@ -1,5 +1,5 @@
 import unittest
-from tests.frequency import frequency_test
+from tests.nist.frequency import frequency_test
 
 class TestFrequency(unittest.TestCase):
 

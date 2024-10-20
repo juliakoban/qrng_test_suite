@@ -7,9 +7,6 @@ import math
 # the passing of this test. 
 
 def frequency_test( input ):
-    # input restrictions
-    if len( input ) < 100: return 0.
-    # test
     s_n     = sum( 2 * int(bit) - 1 for bit in input )
     s_obs   = abs( s_n ) / math.sqrt( len( input ) ) 
     p_value = math.erfc( float( s_obs / math.sqrt( 2 ) ) )
