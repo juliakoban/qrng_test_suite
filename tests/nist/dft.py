@@ -8,7 +8,7 @@ import numpy as np
 
 def DFT_test( input ):
     n = len( input )
-    T = math.sqrt( ( math.log( 1. / 0.05 ) ) * n ) # the 95 % peak height threshold value
+    T = math.sqrt( math.log( 1. / 0.05 ) * n ) # the 95 % peak height threshold value
     N0 = ( 0.95 * n ) / 2.  # expected theoretical (95 %) number of peaks (under the assumption of randomness) that are less than T
     
     X = [] # converted sequence 
@@ -17,7 +17,7 @@ def DFT_test( input ):
         else: X.append( -1 )
         
     S = np.fft.fft( X ) # Discrete Fourier Transform
-    M = np.abs( S )[:n//2]
+    M = abs( S )[:n//2]
     
     N1 = 0
     for peak in M:
