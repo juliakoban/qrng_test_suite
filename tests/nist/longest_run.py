@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.special as ss
+import math
 
 # The focus of the test is the longest run of ones within M-bit blocks. The purpose of this test is to
 # determine whether the length of the longest run of ones within the tested sequence is consistent with the
@@ -18,35 +19,35 @@ def longest_run_test( input ):
     elif n >= 6272 and n < 750000:
         M, K, N = 128, 5, 49
         intervals = [4, 5, 6, 7, 8, 9]
-        pi = [0.1174, 0.2430, 0.2493, 0.1752,  0.1027, 0.1124]
+        pi = [0.1174035788, 0.242955959, 0.249363483, 0.17517706,  0.102701071, 0.112398847]
     elif n >= 750000: 
         M, K, N = 10**4, 6, 75
         intervals = [10, 11, 12, 13, 14, 15, 16]
         pi = [0.0882, 0.2092, 0.2483, 0.1933, 0.1208, 0.0675, 0.0727]
     
     vi = np.zeros( K + 1 ) # frequencies νi of the longest runs of ones in each block; i - length of ones run
-
+    
+    N = math.floor( n / M ) # this is in NIST code but above N values are in the manual
+    
     for i in range( N ):
         block = input[i * M:( i + 1 ) * M]
         run, longest_run = 0, 0
         for j in range( M ):
             if block[j] == "1": 
                 run += 1
-                longest_run = max( longest_run, run )
             else: run = 0
-            
-        categorized = False
+            longest_run = max( longest_run, run )
+   
         for index, value in enumerate( intervals ):
-            if longest_run <= value:
+            if value == min( intervals ) and longest_run <= value:
                 vi[index] += 1
-                categorized = True
-                break
-        if not categorized:
-            vi[-1] += 1
-            
+            elif value == max( intervals ) and longest_run >= value:
+                vi[index] += 1
+            elif longest_run == value:
+                vi[index] += 1
+                      
     chi_squared = 0. # A measure of how well the observed longest run length within M-bit blocks matches the expected longest length within M-bit blocks.
     for i in range( K + 1 ):
         chi_squared += ( ( vi[i] - ( N * pi[i] ) )**2 ) / ( N * pi[i])
-        
     p_value = ss.gammaincc( ( K / 2. ), ( chi_squared / 2. ) )
     return p_value
