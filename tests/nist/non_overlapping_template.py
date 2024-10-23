@@ -7,25 +7,39 @@ import scipy.special as ss
 # search for a specific m-bit pattern. If the pattern is not found, the window slides one bit position. If the
 # pattern is found, the window is reset to the bit after the found pattern, and the search resumes. 
 
-BLOCK_LENGTH = 8
+NUM_OF_BLOCKS = 8 # < 100
 
-def non_overlaping_template_test( input, M = BLOCK_LENGTH ):
+def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
     n = len( input )
-    N = math.floor( n / M ) # the number of independent blocks
-    template_0 = [[0,1],[1,0]]
-    m = len( template_0 )
-    W = []
+    M = math.floor( n / N ) # block length, M > 0.01 * N
+    template_0 = [0, 0, 0, 0, 0, 0, 0, 0, 1]
+    m = len( template_0 ) # m should be 9 or 10 for best results 
     
-    blocks = []
+    blocks = list()
     for i in range( N ):
-        blocks.append( int( input[i * M:( i + 1 ) * M] ) )
+        block = list()
+        for j in range( M ):
+            block.append( int( input[i * M + j], 2 ) )
+        blocks.append( block )
 
+    W = []
+    for block in blocks:
+        position = 0
+        count = 0
+        while position <= ( M - m ):
+            if block[position:( position + m )] == template_0:
+                position += m
+                count += 1
+            else:
+                position += 1
+        W.append( count )
+        
+    miu = float( M - m + 1 ) / float( 2**m ) 
+    sigma = M * ( ( 1.0 / float( 2**m ) ) - ( float( ( 2 * m ) - 1 ) / float( 2**( 2 * m ) ) ) )
+   
+    chi_squared = 0.0  
+    for i in range( N ):
+        chi_squared += ( ( W[i] - miu )**2 ) / sigma
 
-    miu   = float( M - m + 1 ) / float( 2**m )
-    sigma = M * ( ( 1. / 2**m ) - ( ( ( 2 * m ) - 1) / ( 2**( 2 * m ) ) ) )
-    chi_squared = 0.
-    # for i in range( N ): 
-        # chi_squared += ( ( W[i] - miu )**2 ) / sigma
-    # p_value = ss.gammaincc( N / 2., chi_squared / 2. )
-    p_value = 0
+    p_value = ss.gammaincc( N / 2.0, chi_squared / 2.0 ) 
     return p_value
