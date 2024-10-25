@@ -12,8 +12,8 @@ NUM_OF_BLOCKS = 8 # < 100
 def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
     n = len( input )
     M = math.floor( n / N ) # block length, M > 0.01 * N
-    template_0 = [0, 0, 0, 0, 0, 0, 0, 0, 1]
-    m = len( template_0 ) # m should be 9 or 10 for best results 
+    template = [0, 0, 0, 0, 0, 0, 0, 0, 1]
+    m = len( template ) # m should be 9 or 10 for best results 
     
     blocks = list()
     for i in range( N ):
@@ -27,7 +27,7 @@ def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
         position = 0
         count = 0
         while position <= ( M - m ):
-            if block[position:( position + m )] == template_0:
+            if block[position:( position + m )] == template:
                 position += m
                 count += 1
             else:
