@@ -3,7 +3,7 @@ from itertools import product
 import math
 
 # The focus of this test is the frequency of all possible overlapping m-bit patterns across the entire
-# sequence. The purpose of this test is to determine whether the number of occurrences of the 2m m-bit
+# sequence. The purpose of this test is to determine whether the number of occurrences of the 2**m m-bit
 # overlapping patterns is approximately the same as would be expected for a random sequence. Random
 # sequences have uniformity; that is, every m-bit pattern has the same chance of appearing as every other
 # m-bit pattern. Note that for m = 1, the Serial test is equivalent to the Frequency test.
@@ -47,4 +47,4 @@ def serial_test( input ):
     p_value_1 = ss.gammaincc( 2**( M - 2 ) , delta_psi / 2. )
     p_value_2 = ss.gammaincc( 2**( M - 3 ) , delta_2_psi / 2. )
 
-    return p_value_1
+    return p_value_1 # need to adjust for multiple p_values

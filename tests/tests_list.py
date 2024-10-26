@@ -31,4 +31,4 @@ from .nist.random_excursions_var import random_excursions_var_test
 #               random_excursions_var_test
 #            ]
 
-nist_tests = [ approximate_entropy_test ]
+nist_tests = [ random_excursions_test ]
