@@ -1,6 +1,5 @@
 import scipy.special as ss
 from itertools import product
-import math
 
 # The focus of this test is the frequency of all possible overlapping m-bit patterns across the entire
 # sequence. The purpose of this test is to determine whether the number of occurrences of the 2**m m-bit
@@ -34,8 +33,8 @@ def compute( input, block_size, input_size ):
 def serial_test( input ):
     n = len( input )
     M = 16 
-    if M < int( math.floor( math.log( n, 2 ) ) ) - 2:
-        return 0
+    # if M < int( math.floor( math.log( n, 2 ) ) ) - 2:
+    #    return 0
     
     psi_m_3 = compute( input, M, n )
     psi_m_2 = compute( input, M - 1, n )

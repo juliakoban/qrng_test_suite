@@ -31,8 +31,9 @@ def compute_p_value( n, z ):
 
 def cumulative_sums_test( input ):
     n = len( input )
-    values = list( )
+    if n < 100: return 0
     
+    values = list( )
     for i in range( n ):
         values.append( 2 * int( input[i] ) - 1 )
 

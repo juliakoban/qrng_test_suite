@@ -6,7 +6,7 @@ def run_nist_test( input, test_function ):
     bins = np.arange(0., 1.1, 0.1)
     
     p_values = [test_function( input[i] ) for i in range( 0, len( input ) )]
-    hist, _ = np.histogram(p_values, bins = bins)
+    hist, _ = np.histogram( p_values, bins = bins )
     
     passed_tests = 0
     for p_value in p_values:
@@ -24,6 +24,6 @@ def run_nist_tests( tests, input ):
     write_header_to_file( )
     for test in tests:
         hist, p_value_chi, p_value_ks, proportion = run_nist_test( input, test )
-        test_name = str( test ).split()[1].replace( "_test" , "")
+        test_name = str( test ).split()[1].replace( "_test" , "" )
         write_to_file( hist, p_value_chi, p_value_ks, proportion, test_name )
    
