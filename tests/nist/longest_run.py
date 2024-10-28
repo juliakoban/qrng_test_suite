@@ -25,6 +25,8 @@ def longest_run_test( input ):
         M, K, N = 10**4, 6, 75
         intervals = [10, 11, 12, 13, 14, 15, 16]
         pi = [0.0882, 0.2092, 0.2483, 0.1933, 0.1208, 0.0675, 0.0727]
+    else: return [0.]    
+    
     
     vi = np.zeros( K + 1 ) # frequencies νi of the longest runs of ones in each block; i - length of ones run
     

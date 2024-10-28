@@ -32,7 +32,7 @@ def compute_p_value( n, z ):
 def cumulative_sums_test( input ):
     p_values = []
     n = len( input )
-    if n < 100: return 0
+    if n < 100: return [0.] * 2
     
     values = list( )
     for i in range( n ):

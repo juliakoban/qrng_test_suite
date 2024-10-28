@@ -6,12 +6,13 @@ import scipy.special as ss
 # assumption of randomness. For block size M=1, this test degenerates to test 1, the Frequency (Monobit)
 # test. 
 
-BLOCK_SIZE = 128 
+BLOCK_SIZE = 10000
 
 def block_frequency_test( input ):
     p_values = []
     n = len( input )
     N = math.floor( n / BLOCK_SIZE ) # number of blocks
+    if n < 100 or N > 100: return [0.]
     proportions = []
     for i in range( N ):
         block = input[i * BLOCK_SIZE:( i + 1 ) * BLOCK_SIZE]

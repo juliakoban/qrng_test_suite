@@ -48,7 +48,7 @@ def binary_matrix_rank_test( input, M = ROWS, Q = COLUMNS ):
     MATRIX_SIZE = M * Q
     n = len( input )
     N  = int( math.floor( n / MATRIX_SIZE ) ) # number of blocks
-    # if N < 38: return 0.
+    if N < 38: return [0.]
     
     # compute the reference probabilities for FM, FMM and remainder 
     FM_prob, FMM_prob, R_prob = compute_probabilities( )

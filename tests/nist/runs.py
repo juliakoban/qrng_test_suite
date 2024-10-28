@@ -9,6 +9,7 @@ import math
 def runs_test( input ):
     p_values = []
     n = len( input )
+    if n < 100: return [0.]
     ones   = input.count( '1' ) 
     pi = float( ones ) / n # pre run proportion
     tao = 2.0 / math.sqrt( n )

@@ -46,9 +46,8 @@ def berlekam_massey( input ):
 def linear_complexity_test( input, M = BLOCK_LENGHT, K = DEGREES_OF_FREEDOM ):
     p_values = []
     n = len( input )
-    if n < 10**6:
-        return 0
     N = math.floor( n / M )
+    if N < 200 or M < 500 or M > 5000 or n < 10**6: return [0.]
     miu = ( M / 2. ) + ( ( 9 + ( -1 )**( M + 1 ) ) / 36. ) - ( ( ( M / 3. ) + ( 2. / 9. ) ) / 2**M )
     T = list( )
     for i in range( N ):

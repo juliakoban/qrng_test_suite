@@ -8,8 +8,10 @@ import math
 
 def frequency_test( input ):
     p_values = []
+    n = len( input )
+    if n < 100: return [0.]
     s_n     = sum( 2 * int(bit) - 1 for bit in input )
-    s_obs   = abs( s_n ) / math.sqrt( len( input ) ) 
+    s_obs   = abs( s_n ) / math.sqrt( n ) 
     p_value = math.erfc( float( s_obs / math.sqrt( 2 ) ) )
     p_values.append( p_value )
     return p_values

@@ -28,7 +28,7 @@ def overlapping_template_test( input, N = NUM_OF_BLOCKS, K = DEGREES_OF_FREEDOM,
     p_values = []
     n = len( input )
     if n < M * N:
-        return 0
+        return [0.]
         # M = math.floor( n / N ) # too little data. Inputs of length at least M * N bits required ( recommended 1,000,000 )
         
     template = [1, 1, 1, 1, 1, 1, 1, 1, 1]

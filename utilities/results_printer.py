@@ -1,24 +1,12 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
-TEST_SUITE_NAME = "DIEHARDEST TEST SUITE"
 HEADER_LABELS   = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0", "P-VALUE(CHI^2)", "P-VALUE(KS)", "PROPORTION", "STATISTICAL TEST       "]
 TEST_LABEL_LENGTH = 24
 HEADER_LENGTH   = 129
 OUTPUT_FILE     = "./output/finalResults.txt"
-
-def plot_results(p_values, bins):
-    plt.figure(figsize = (6, 4))
-    plt.hist(p_values, bins, edgecolor = 'black', alpha = 0.7)
-    plt.title('Histogram of p-values for Frequency Test')
-    plt.xlabel('p-value intervals')
-    plt.ylabel('frequency of p-values')
-    plt.xticks(np.arange(0, 1.1, 0.1))
-    plt.grid(axis='y', alpha = 0.75)
-    plt.show()
+TEST_SUITE_NAME = "DIEHARDEST TEST SUITE"
+TITLE_CENTERING = 54
 
 def header( ):
-    header_output = TEST_SUITE_NAME + "\n" 
+    header_output = "\n" + "-" * TITLE_CENTERING + TEST_SUITE_NAME +  "-" * TITLE_CENTERING + 2 * "\n" 
     header_output += "-" * HEADER_LENGTH + "\n" 
     header_output += " ".join(f"{label:>2} |" for label in HEADER_LABELS) + "\n" 
     header_output += "-" * HEADER_LENGTH + "\n"  
@@ -27,7 +15,9 @@ def header( ):
 def test_result( hist, p_value_chi, p_value_ks, proportion, test_name ):
     text_hist    = [f"{num:<3} |" for num in hist]
     output_hist  = " ".join(text_hist)
-    final_output = f"{output_hist} {p_value_chi:.6f}       | {p_value_ks:.6f}    | {proportion:.4f}     | {test_name}"
+    if isinstance( proportion, float):
+        final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion:.4f}     | {test_name}"
+    else: final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion}     | {test_name}"
     final_output += " " * ( TEST_LABEL_LENGTH - len(test_name) ) + "|\n"
     final_output += "-" * HEADER_LENGTH + "\n" 
     return final_output
