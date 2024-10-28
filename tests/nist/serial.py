@@ -31,6 +31,7 @@ def compute( input, block_size, input_size ):
     return psi_squared( block_size, input_size, frequencies )
 
 def serial_test( input ):
+    p_values = []
     n = len( input )
     M = 16 
     # if M < int( math.floor( math.log( n, 2 ) ) ) - 2:
@@ -45,5 +46,6 @@ def serial_test( input ):
     
     p_value_1 = ss.gammaincc( 2**( M - 2 ) , delta_psi / 2. )
     p_value_2 = ss.gammaincc( 2**( M - 3 ) , delta_2_psi / 2. )
-
-    return p_value_1 # need to adjust for multiple p_values
+    p_values.append( p_value_1 )
+    p_values.append( p_value_2 )
+    return p_values 

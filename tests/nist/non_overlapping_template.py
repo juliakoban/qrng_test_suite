@@ -10,6 +10,7 @@ import scipy.special as ss
 NUM_OF_BLOCKS = 8 # < 100
 
 def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
+    p_values = []
     n = len( input )
     M = math.floor( n / N ) # block length, M > 0.01 * N
     template = [0, 0, 0, 0, 0, 0, 0, 0, 1]
@@ -42,4 +43,5 @@ def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
         chi_squared += ( ( W[i] - miu )**2 ) / sigma
 
     p_value = ss.gammaincc( N / 2.0, chi_squared / 2.0 ) 
-    return p_value
+    p_values.append( p_value )
+    return p_values

@@ -81,9 +81,8 @@ def random_excursions_test( input ):
     
     cycles = construct_cycles( s_i_prim )
     if cycles == 0: 
-        p_values = [0.] * len( state_range )
-        return p_values[4] 
+        return [0.] * len( state_range )
     frequencies = compute_frequencies( cycles, state_range )
     v_k = compute_vk( frequencies, state_range )
     p_values = produce_p_values( v_k, len( cycles ) )
-    return p_values[4]
+    return p_values

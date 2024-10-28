@@ -25,6 +25,7 @@ def probability( u, eta ):
     return p
 
 def overlapping_template_test( input, N = NUM_OF_BLOCKS, K = DEGREES_OF_FREEDOM, M = BLOCK_LENGTH ):
+    p_values = []
     n = len( input )
     if n < M * N:
         return 0
@@ -64,5 +65,5 @@ def overlapping_template_test( input, N = NUM_OF_BLOCKS, K = DEGREES_OF_FREEDOM,
     for i in range( K + 1 ):
         chi_squared += ( ( v[i] - ( N * pi[i] ) )**2 / ( N * pi[i] ) )
     p_value = ss.gammaincc(  5.0 / 2.0 , chi_squared / 2.0 ) 
-    
-    return p_value
+    p_values.append( p_value )
+    return p_values

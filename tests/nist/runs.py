@@ -7,6 +7,7 @@ import math
 # whether the oscillation between such zeros and ones is too fast or too slow. 
 
 def runs_test( input ):
+    p_values = []
     n = len( input )
     ones   = input.count( '1' ) 
     pi = float( ones ) / n # pre run proportion
@@ -19,4 +20,5 @@ def runs_test( input ):
             if input[i] != input[i + 1]:
                 vobs += 1.0
         p_value = math.erfc( abs( vobs - ( 2 * n *  pi * ( 1 - pi ) ) ) / ( 2 * math.sqrt( 2 * n ) * pi * ( 1 - pi ) ) )
-    return p_value
+    p_values.append( p_value )
+    return p_values

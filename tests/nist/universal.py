@@ -6,6 +6,7 @@ import math
 # considered to be non-random. 
 
 def universal_test( input ):
+    p_values = []
     n = len( input )
     
     if   ( n >= 387840 and n < 904960 ): M = 6
@@ -52,4 +53,5 @@ def universal_test( input ):
     deviation = c * math.sqrt( variance[M] / K )
         
     p_value = math.erfc( abs( ( fn - expected[M] ) / ( math.sqrt( 2 ) * deviation ) ) )
-    return p_value
+    p_values.append( p_value )
+    return p_values

@@ -44,7 +44,7 @@ def binary_rank( matrix, M = ROWS, Q = COLUMNS ):
     return rank
 
 def binary_matrix_rank_test( input, M = ROWS, Q = COLUMNS ):
-    
+    p_values = []
     MATRIX_SIZE = M * Q
     n = len( input )
     N  = int( math.floor( n / MATRIX_SIZE ) ) # number of blocks
@@ -67,4 +67,5 @@ def binary_matrix_rank_test( input, M = ROWS, Q = COLUMNS ):
     chi_squared = sum( ( ( observed - ( expected * N ) ) ** 2 ) / ( expected * N )
         for observed, expected in zip( [FM, FMM, remainder], [FM_prob, FMM_prob, R_prob] ) )
     p_value = math.e **( -chi_squared / 2.0 )
-    return p_value
+    p_values.append( p_value )
+    return p_values

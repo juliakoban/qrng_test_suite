@@ -30,6 +30,7 @@ def compute_p_value( n, z ):
     return p_value
 
 def cumulative_sums_test( input ):
+    p_values = []
     n = len( input )
     if n < 100: return 0
     
@@ -50,4 +51,6 @@ def cumulative_sums_test( input ):
         
     p_value_f = compute_p_value( n, max_forward )
     p_value_b = compute_p_value( n, max_backward )
-    return p_value_b
+    p_values.append( p_value_f )
+    p_values.append( p_value_b )
+    return p_values

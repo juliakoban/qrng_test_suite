@@ -24,7 +24,8 @@ def random_excursions_var_test( input ):
     for value in s_i_prim[1:]:
         if value == 0:
             J += 1
-    if J < 500: return 0
+    
+    if J < 500: return [0.] * len(state_range)
     
     freq_dict = {state: 0 for state in state_range}
     for value in s_i_prim:
@@ -34,4 +35,4 @@ def random_excursions_var_test( input ):
     p_values = []    
     for state, count in freq_dict.items( ):
         p_values.append( math.erfc( abs( count - J ) / math.sqrt( ( 2 * J * ( 4 * abs( state ) - 2 ) ) ) ) )
-    return p_values[9]
+    return p_values

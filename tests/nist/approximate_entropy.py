@@ -18,6 +18,7 @@ def count_pattterns( input_prim, patterns, block_size ):
     return frequencies
 
 def approximate_entropy_test( input ):
+    p_values = []
     n = len( input )
     M = 10
     
@@ -40,4 +41,5 @@ def approximate_entropy_test( input ):
     ap_en = f_m_i[0] - f_m_i[1]
     chi_squared = 2 * n * ( math.log( 2 ) - ap_en )
     p_value = ss.gammaincc( 2**( M - 1 ), chi_squared / 2. )
-    return p_value
+    p_values.append( p_value )
+    return p_values

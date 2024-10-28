@@ -44,6 +44,7 @@ def berlekam_massey( input ):
     return L, c[:L]
 
 def linear_complexity_test( input, M = BLOCK_LENGHT, K = DEGREES_OF_FREEDOM ):
+    p_values = []
     n = len( input )
     if n < 10**6:
         return 0
@@ -70,4 +71,5 @@ def linear_complexity_test( input, M = BLOCK_LENGHT, K = DEGREES_OF_FREEDOM ):
     for i in range( K + 1 ):
         chi_squared += ( ( v[i] - ( N * pi[i] ) )**2 / ( N * pi[i] ) )
     p_value = ss.gammaincc(  ( K / 2.0 ), ( chi_squared / 2.0 ) ) 
-    return p_value
+    p_values.append( p_value )
+    return p_values

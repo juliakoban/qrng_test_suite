@@ -7,6 +7,7 @@ import numpy as np
 # whether the number of peaks exceeding the 95 % threshold is significantly different than 5 %. 
 
 def DFT_test( input ):
+    p_values = []
     n = len( input )
     T = math.sqrt( math.log( 1. / 0.05 ) * n ) # the 95 % peak height threshold value
     N0 = ( 0.95 * n ) / 2.  # expected theoretical (95 %) number of peaks (under the assumption of randomness) that are less than T
@@ -25,4 +26,5 @@ def DFT_test( input ):
             
     d = ( N1 - N0 ) / ( math.sqrt( ( n * 0.95 * 0.05 ) / 4 ) )
     p_value = math.erfc( float( abs( d ) / math.sqrt( 2 ) ) )
-    return p_value
+    p_values.append( p_value )
+    return p_values

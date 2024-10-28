@@ -9,6 +9,7 @@ import math
 # length of the longest run of zeroes. Therefore, only a test for ones is necessary. 
 
 def longest_run_test( input ):
+    p_values = []
     n = len( input )
     M, K, N = 0, 0, 0 # length of each block, length of ones run for frequencies , number of blocks 
     intervals, pi = [], []
@@ -50,4 +51,5 @@ def longest_run_test( input ):
     for i in range( K + 1 ):
         chi_squared += ( ( vi[i] - ( N * pi[i] ) )**2 ) / ( N * pi[i])
     p_value = ss.gammaincc( ( K / 2. ), ( chi_squared / 2. ) )
-    return p_value
+    p_values.append( p_value )
+    return p_values

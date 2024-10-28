@@ -9,6 +9,7 @@ import scipy.special as ss
 BLOCK_SIZE = 128 
 
 def block_frequency_test( input ):
+    p_values = []
     n = len( input )
     N = math.floor( n / BLOCK_SIZE ) # number of blocks
     proportions = []
@@ -20,4 +21,5 @@ def block_frequency_test( input ):
     for propotion in proportions:
         chi_2 += 4 * BLOCK_SIZE * ( ( propotion - 0.5 )**2 )
     p_value = ss.gammaincc( ( N / 2. ), ( float( chi_2 ) / 2. ))
-    return p_value
+    p_values.append( p_value )
+    return p_values
