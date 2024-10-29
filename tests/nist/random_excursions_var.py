@@ -8,7 +8,7 @@ import math
 def random_excursions_var_test( input ):
     n = len( input )
     state_range = list( range( -9, 0 ) ) + list( range( 1, 10 ) )
-    if n < 1000000: return 0
+    if n < 1000000: return [0.]
     values = list( )
     for i in range( n ):
         values.append( 2 * int( input[i] ) - 1 )
@@ -25,7 +25,7 @@ def random_excursions_var_test( input ):
         if value == 0:
             J += 1
     
-    if J < 500: return [0.] * len(state_range)
+    if J < 500: return [0.] * len( state_range )
     
     freq_dict = {state: 0 for state in state_range}
     for value in s_i_prim:

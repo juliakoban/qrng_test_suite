@@ -1,5 +1,5 @@
 from utilities.run_tests import run_all_tests
-from utilities.file_loader import *
+from utilities.file_loader import load_file
 from utilities.parse_args import parse_arguments
 from tests.tests_list import nist_tests, diehard_tests
 

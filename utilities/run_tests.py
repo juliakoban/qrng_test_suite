@@ -1,12 +1,16 @@
 import numpy as np
-from .results_printer import *
+from .results_printer import write_nist_header, write_diehard_header, write_nist_result, write_diehard_result
 from scipy.stats import chisquare, kstest
+import math
 
-def calculate_stats( hist, p_values, bins ):
+def calculate_nist_stats( hist, p_values, bins ):
     expected_freq = len( p_values ) / ( len( bins ) - 1 )
-    expected = [expected_freq] * ( len( bins ) - 1 )
-    p_value_chi = round( chisquare( hist, expected ).pvalue, 6 )
-    p_value_ks  = round( kstest( p_values, "uniform" ).pvalue, 6 )
+    expected = [expected_freq] * ( len( bins ) - 1 ) 
+    if not np.isclose( np.sum( hist ), np.sum( expected ), rtol = 1e-8 ):
+        raise ValueError("Observed and expected frequencies do not match within the tolerance.")
+
+    p_value_chi = chisquare( hist, expected ).pvalue
+    p_value_ks  = kstest( p_values, "uniform" ).pvalue
     passed_tests = np.sum( np.array( p_values ) > 0.01 )
     proportion = passed_tests / len( p_values)  if p_values else 0
     return p_value_chi, p_value_ks, proportion
@@ -26,24 +30,24 @@ def run_nist_test( input, test_function ):
             continue
     
         hist = np.histogram( p_values, bins = bins )[0]
-        p_value_chi, p_value_ks, proportion = calculate_stats( hist, p_values, bins )
-        
+        try:
+            p_value_chi, p_value_ks, proportion = calculate_nist_stats( hist, p_values, bins )
+        except ValueError:
+                p_value_chi, p_value_ks, proportion = "----    ", "----    ", "----  "
+                
         if len( p_values ) < len( p_values_all ): results.append( [hist, "----    ", "----    ", proportion] )
         else: results.append( [hist, p_value_chi, p_value_ks, proportion] )
     return results
 
 def run_diehard_test( input, test_function ):
-    results = []
     p_value = test_function( input )
     return p_value
     
 def run_nist_tests( tests, input, file ):
     write_nist_header( file )
-    
     for test in tests:
         test_name = str( test ).split()[1].replace( "_test" , "" )
         results = run_nist_test( input, test )
-        
         for result in results:
             hist, p_value_chi, p_value_ks, proportion = result
             write_nist_result( hist, p_value_chi, p_value_ks, proportion, test_name )

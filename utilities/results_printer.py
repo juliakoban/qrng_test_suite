@@ -31,7 +31,9 @@ def generate_diehard_header( file ):
 def nist_test_result( hist, p_value_chi, p_value_ks, proportion, test_name ):
     text_hist = [f"{num:<3} |" for num in hist]
     output_hist = " ".join(text_hist)
-    if isinstance( proportion, float):
+    if isinstance( proportion, float) and isinstance( p_value_chi, float) and isinstance( p_value_ks, float):
+        final_output = f"{output_hist} {p_value_chi:.6f}       | {p_value_ks:.6f}    | {proportion:.4f}     | {test_name}"
+    elif isinstance( proportion, float) and not isinstance( p_value_chi, float) and not isinstance( p_value_ks, float):
         final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion:.4f}     | {test_name}"
     else: final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion}     | {test_name}"
     final_output += " " * ( TEST_LABEL_LENGTH - len(test_name) ) + "|\n"

@@ -21,7 +21,7 @@ def approximate_entropy_test( input ):
     p_values = []
     n = len( input )
     M = 10
-    
+    if n < 1000000: return [0.] 
     c_m_i = list( )
     f_m_i = list( )
     for block_size in range( M, ( M + 2 ) ):

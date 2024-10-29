@@ -20,7 +20,7 @@ def universal_test( input ):
     elif ( n >= 231669760 and n < 496435200 ): M = 14
     elif ( n >= 496435200 and n < 1059061760 ): M = 15
     elif ( n >= 1059061760 ): M = 16
-    else: return 0
+    else: return [0.]
     
     Q = 10 * 2**M
     K = math.floor( n / M ) - Q # remaining blocks

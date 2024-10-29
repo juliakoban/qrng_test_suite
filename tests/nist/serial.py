@@ -33,7 +33,8 @@ def compute( input, block_size, input_size ):
 def serial_test( input ):
     p_values = []
     n = len( input )
-    M = 16 
+    M = 16
+    if n < 1000000: return [0.] 
     # if M < int( math.floor( math.log( n, 2 ) ) ) - 2:
     #    return 0
     

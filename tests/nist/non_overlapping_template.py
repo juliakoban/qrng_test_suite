@@ -12,6 +12,7 @@ NUM_OF_BLOCKS = 8 # < 100
 def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
     p_values = []
     n = len( input )
+    if n < 1000: return [0.] 
     M = math.floor( n / N ) # block length, M > 0.01 * N
     template = [0, 0, 0, 0, 0, 0, 0, 0, 1]
     m = len( template ) # m should be 9 or 10 for best results 
