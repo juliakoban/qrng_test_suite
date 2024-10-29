@@ -1,5 +1,5 @@
 import numpy as np
-from .results_printer import write_to_file, write_header_to_file
+from .results_printer import *
 from scipy.stats import chisquare, kstest
 
 def calculate_stats( hist, p_values, bins ):
@@ -31,9 +31,14 @@ def run_nist_test( input, test_function ):
         if len( p_values ) < len( p_values_all ): results.append( [hist, "----    ", "----    ", proportion] )
         else: results.append( [hist, p_value_chi, p_value_ks, proportion] )
     return results
+
+def run_diehard_test( input, test_function ):
+    results = []
+    p_value = test_function( input )
+    return p_value
     
-def run_nist_tests( tests, input ):
-    write_header_to_file( )
+def run_nist_tests( tests, input, file ):
+    write_nist_header( file )
     
     for test in tests:
         test_name = str( test ).split()[1].replace( "_test" , "" )
@@ -41,5 +46,16 @@ def run_nist_tests( tests, input ):
         
         for result in results:
             hist, p_value_chi, p_value_ks, proportion = result
-            write_to_file( hist, p_value_chi, p_value_ks, proportion, test_name )
+            write_nist_result( hist, p_value_chi, p_value_ks, proportion, test_name )
+            
+def run_diehard_tests( tests, input, file ):
+    write_diehard_header( file )
+    for test in tests:
+        test_name = str( test ).split()[1].replace( "_test" , "" )
+        p_value_ks = run_diehard_test( input, test )
+        write_diehard_result( p_value_ks, test_name )
+            
+def run_all_tests( nist_tests, diehard_tests, input, file ):
+    run_nist_tests( nist_tests, input, file )
+    # run_diehard_tests( diehard_tests, input, file )
    

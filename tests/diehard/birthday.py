@@ -28,7 +28,7 @@ def count_repeated_spacings( birthdays ):
     j = sum( count > 1 for count in spacing_counts.values( ) )
     return j
 
-def run_simulation( sequences ):
+def birthday_test( sequences ):
     max_j_value = 7
     p_values = []
     expected = np.round( [100 * poisson.pmf( i, LAMBDA ) for i in range( max_j_value )] ).astype( int )
@@ -49,4 +49,5 @@ def run_simulation( sequences ):
         p_values.append( p_value_chi )
         
     p_value_ks = kstest( p_values, "uniform" ).pvalue
+    return p_value_ks
     #print( f"{p_value_ks:.6f}" )
