@@ -9,17 +9,16 @@ import math
 def runs_test( input ):
     p_values = []
     n = len( input )
-    if n < 100: return [0.]
-    ones   = input.count( '1' ) 
+    if n < 100: 
+        return [0.]
+    
+    ones = input.count( '1' ) 
     pi = float( ones ) / n # pre run proportion
     tao = 2.0 / math.sqrt( n )
     if abs( pi - 0.5 ) > tao: # determines passing of frequency test
-        p_value = 0
-    else:
-        vobs = 1.0
-        for i in range( n - 1 ):
-            if input[i] != input[i + 1]:
-                vobs += 1.0
-        p_value = math.erfc( abs( vobs - ( 2 * n *  pi * ( 1 - pi ) ) ) / ( 2 * math.sqrt( 2 * n ) * pi * ( 1 - pi ) ) )
+        return [0.]
+    
+    vobs = sum( 1 for i in range( n - 1 ) if input[i] != input[i + 1]) + 1
+    p_value = math.erfc( abs( vobs - ( 2 * n *  pi * ( 1 - pi ) ) ) / ( 2 * math.sqrt( 2 * n ) * pi * ( 1 - pi ) ) )
     p_values.append( p_value )
     return p_values

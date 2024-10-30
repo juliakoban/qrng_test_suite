@@ -1,5 +1,6 @@
 import math
 import scipy.special as ss
+import numpy as np
 
 # The focus of this test is the number of occurrences of pre-specified target strings. The purpose of this
 # test is to detect generators that produce too many occurrences of a given non-periodic (aperiodic) pattern.
@@ -8,23 +9,32 @@ import scipy.special as ss
 # pattern is found, the window is reset to the bit after the found pattern, and the search resumes. 
 
 NUM_OF_BLOCKS = 8 # < 100
+TEMPLATES_FILE = "./templates/templates_m_9.txt"
+SINGLE_TEMPLATE_FILE = "./templates/template_1"
 
-def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
-    p_values = []
-    n = len( input )
-    if n < 1000: return [0.] 
-    M = math.floor( n / N ) # block length, M > 0.01 * N
-    template = [0, 0, 0, 0, 0, 0, 0, 0, 1]
-    m = len( template ) # m should be 9 or 10 for best results 
-    
-    blocks = list()
-    for i in range( N ):
-        block = list()
-        for j in range( M ):
-            block.append( int( input[i * M + j], 2 ) )
-        blocks.append( block )
+def load_templates_from_file(file_path):
+    templates = []
+    with open(file_path, 'r') as file:
+        for line in file:
+            template = list(map(int, line.strip().split()))
+            templates.append(template)  
+    return templates
 
+def generate_blocks( input, N, M ):
+    input_array = np.frombuffer( input.encode( 'utf-8' ), dtype = np.uint8 ) - ord( "0" )  
+    blocks = input_array.reshape( N, M )  
+    return blocks.tolist()  
+    #blocks = list()
+    #for i in range( N ):
+    #    block = list()
+    #    for j in range( M ):
+    #        block.append( int( input[i * M + j], 2 ) )
+    #    blocks.append( block )
+    #return blocks
+
+def count_template_occurrences( blocks, M,  template ):
     W = []
+    m = len( template ) # m should be 9 or 10 for best results 
     for block in blocks:
         position = 0
         count = 0
@@ -34,15 +44,29 @@ def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
                 count += 1
             else:
                 position += 1
-        W.append( count )
-        
-    miu = float( M - m + 1 ) / float( 2**m ) 
-    sigma = M * ( ( 1.0 / float( 2**m ) ) - ( float( ( 2 * m ) - 1 ) / float( 2**( 2 * m ) ) ) )
-   
-    chi_squared = 0.0  
-    for i in range( N ):
-        chi_squared += ( ( W[i] - miu )**2 ) / sigma
+        W.append( count )         
+    return W
 
+def calculate_statistics( W, M, N, template ):
+    m = len( template )
+    miu = ( M - m + 1 ) / ( 2**m )
+    sigma = M * ( ( 1.0 / float( 2**m ) ) - ( float( ( 2 * m ) - 1 ) / float( 2**( 2 * m ) ) ) )
+    chi_squared = sum( ( ( W[i] - miu )**2 ) / sigma for i in range( N ) )
     p_value = ss.gammaincc( N / 2.0, chi_squared / 2.0 ) 
-    p_values.append( p_value )
+    return p_value
+
+def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
+    p_values = []
+    n = len( input )
+    if n < 1000:
+        return [0.]
+    
+    templates = load_templates_from_file( TEMPLATES_FILE ) 
+    M = math.floor( n / N ) # block length, M > 0.01 * N
+    blocks = generate_blocks( input, N, M )
+    
+    for template in templates:
+        W = count_template_occurrences( blocks, M, template )        
+        p_value = calculate_statistics( W, M, N, template )
+        p_values.append( p_value )
     return p_values
