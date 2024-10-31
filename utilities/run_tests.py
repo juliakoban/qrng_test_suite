@@ -32,14 +32,14 @@ def run_nist_test( input, test_function ):
         
         if not p_values: 
             hist = np.zeros( len( bins ) - 1, dtype = int )
-            results.append( [hist, "----    ", "----    ", "----  "] )
+            results.append( [hist, "----    ", "----    ", "----  ", ""] )
             continue
     
         hist = np.histogram( p_values, bins = bins )[0]
         try:
             p_value_chi, p_value_ks, proportion, is_acceptable = calculate_nist_stats( hist, p_values, bins )
         except ValueError:
-                p_value_chi, p_value_ks, proportion = "----    ", "----    ", "----  "
+                p_value_chi, p_value_ks, proportion, is_acceptable = "----    ", "----    ", "----  ", ""
                 
         if len( p_values ) < len( p_values_all ): results.append( [hist, "----    ", "----    ", proportion, is_acceptable] )
         else: results.append( [hist, p_value_chi, p_value_ks, proportion, is_acceptable] )

@@ -9,6 +9,7 @@ OUTPUT_FILE_DIEHARD = "./output/diehardResults.txt"
 TEST_SUITE_NAME = "DIEHARDEST TEST SUITE"
 HEADER_DESCRIPTION_NIST = "PART 1: NIST TESTS RESULTS FOR FILE "
 HEADER_DESCRIPTION_DIEHARD = "PART 2: DIEHARD TESTS RESULTS FOR FILE "
+TIME_LABEL = "EXECUTING TIME: "
 
 def generate_header( ):
     header_output  = "-" * HEADER_LENGTH + "\n" 
@@ -65,3 +66,9 @@ def write_nist_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable,
 def write_diehard_result( p_value_ks, test_name ):
     with open( OUTPUT_FILE_DIEHARD, 'a' ) as f:
         f.write( diehard_test_result( p_value_ks, test_name ) )
+        
+def write_executing_time( time ):
+    final_output = TIME_LABEL + f"{time:.2f} s" +"\n"
+    final_output += "-" * HEADER_LENGTH + "\n" 
+    with open( OUTPUT_FILE_NIST, 'a' ) as f:
+        f.write( final_output )
