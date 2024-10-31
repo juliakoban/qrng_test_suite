@@ -28,14 +28,18 @@ def generate_diehard_header( file ):
     header_output += "-" * HEADER_LENGTH + "\n" 
     return header_output
 
-def nist_test_result( hist, p_value_chi, p_value_ks, proportion, test_name ):
+def nist_test_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable, test_name ):
+    if not is_acceptable: 
+        passed_symbol = "*"
+    else: passed_symbol = " "
+    
     text_hist = [f"{num:<3} |" for num in hist]
     output_hist = " ".join(text_hist)
     if isinstance( proportion, float) and isinstance( p_value_chi, float) and isinstance( p_value_ks, float):
-        final_output = f"{output_hist} {p_value_chi:.6f}       | {p_value_ks:.6f}    | {proportion:.4f}     | {test_name}"
+        final_output = f"{output_hist} {p_value_chi:.6f}       | {p_value_ks:.6f}    | {proportion:.4f}  {passed_symbol}  | {test_name}"
     elif isinstance( proportion, float) and not isinstance( p_value_chi, float) and not isinstance( p_value_ks, float):
-        final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion:.4f}     | {test_name}"
-    else: final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion}     | {test_name}"
+        final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion:.4f}  {passed_symbol} | {test_name}"
+    else: final_output = f"{output_hist} {p_value_chi}       | {p_value_ks}    | {proportion}  {passed_symbol}  | {test_name}"
     final_output += " " * ( TEST_LABEL_LENGTH - len(test_name) ) + "|\n"
     final_output += "-" * HEADER_LENGTH + "\n" 
     return final_output
@@ -54,9 +58,9 @@ def write_diehard_header( file ):
         f.write( generate_header( ) )
         f.write( generate_diehard_header( file ) )
     
-def write_nist_result( hist, p_value_chi, p_value_ks, proportion, test_name ):
+def write_nist_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable, test_name ):
     with open( OUTPUT_FILE_NIST, 'a' ) as f:
-        f.write( nist_test_result( hist, p_value_chi, p_value_ks, proportion, test_name ) )
+        f.write( nist_test_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable, test_name ) )
         
 def write_diehard_result( p_value_ks, test_name ):
     with open( OUTPUT_FILE_DIEHARD, 'a' ) as f:

@@ -24,11 +24,12 @@ nist_tests = [
                non_overlaping_template_test,
                overlapping_template_test,
                universal_test,
-                linear_complexity_test,
+               linear_complexity_test,
                serial_test,
                approximate_entropy_test,
                cumulative_sums_test,
                random_excursions_test,
                random_excursions_var_test
             ]
+
 diehard_tests = [ ]

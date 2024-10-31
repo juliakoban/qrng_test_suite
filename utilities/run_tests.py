@@ -13,7 +13,13 @@ def calculate_nist_stats( hist, p_values, bins ):
     p_value_ks  = kstest( p_values, "uniform" ).pvalue
     passed_tests = np.sum( np.array( p_values ) > 0.01 )
     proportion = passed_tests / len( p_values)  if p_values else 0
-    return p_value_chi, p_value_ks, proportion
+    
+    m = len(p_values)
+    alpha = 1 / m
+    p_hat = 1 - alpha
+    confidence_interval =  3 * math.sqrt( p_hat * ( 1 - p_hat ) / m )
+    is_acceptable = proportion >= ( p_hat - confidence_interval )
+    return p_value_chi, p_value_ks, proportion, is_acceptable
 
 def run_nist_test( input, test_function ):
     bins = np.arange(0., 1.1, 0.1)
@@ -31,12 +37,12 @@ def run_nist_test( input, test_function ):
     
         hist = np.histogram( p_values, bins = bins )[0]
         try:
-            p_value_chi, p_value_ks, proportion = calculate_nist_stats( hist, p_values, bins )
+            p_value_chi, p_value_ks, proportion, is_acceptable = calculate_nist_stats( hist, p_values, bins )
         except ValueError:
                 p_value_chi, p_value_ks, proportion = "----    ", "----    ", "----  "
                 
-        if len( p_values ) < len( p_values_all ): results.append( [hist, "----    ", "----    ", proportion] )
-        else: results.append( [hist, p_value_chi, p_value_ks, proportion] )
+        if len( p_values ) < len( p_values_all ): results.append( [hist, "----    ", "----    ", proportion, is_acceptable] )
+        else: results.append( [hist, p_value_chi, p_value_ks, proportion, is_acceptable] )
     return results
 
 def run_diehard_test( input, test_function ):
@@ -49,8 +55,8 @@ def run_nist_tests( tests, input, file ):
         test_name = str( test ).split()[1].replace( "_test" , "" )
         results = run_nist_test( input, test )
         for result in results:
-            hist, p_value_chi, p_value_ks, proportion = result
-            write_nist_result( hist, p_value_chi, p_value_ks, proportion, test_name )
+            hist, p_value_chi, p_value_ks, proportion, is_acceptable = result
+            write_nist_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable, test_name )
             
 def run_diehard_tests( tests, input, file ):
     write_diehard_header( file )
