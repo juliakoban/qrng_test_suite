@@ -7,16 +7,14 @@ import math
 # the passing of this test. 
 
 def frequency_test( input ):
-    p_values = []
     n = len( input )
     if n < 100: 
         return [0.]
+    
+    p_values = []
     s_n = sum( 1 if bit == '1' else -1 for bit in input )
-    s_obs = abs( s_n ) / math.sqrt( n )
-    # s_n     = sum( 2 * int(bit) - 1 for bit in input )
-    # s_obs   = abs( s_n ) / math.sqrt( n ) 
+    s_obs = abs( s_n ) / math.sqrt( n ) 
     p_value = math.erfc(s_obs / math.sqrt(2))
-    # p_value = math.erfc( float( s_obs / math.sqrt( 2 ) ) )
     p_values.append( p_value )
     return p_values
 

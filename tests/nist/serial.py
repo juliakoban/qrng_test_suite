@@ -31,13 +31,14 @@ def compute( input, block_size, input_size ):
     return psi_squared( block_size, input_size, frequencies )
 
 def serial_test( input ):
-    p_values = []
     n = len( input )
     M = 16
-    if n < 1000000: return [0.] 
+    if n < 1000000: 
+        return [0.] 
     # if M < int( math.floor( math.log( n, 2 ) ) ) - 2:
     #    return 0
     
+    p_values = []
     psi_m_3 = compute( input, M, n )
     psi_m_2 = compute( input, M - 1, n )
     psi_m_1 = compute( input, M - 2, n )

@@ -1,6 +1,6 @@
 import math
 import scipy.special as ss
-
+import numpy as np
 # The focus of the Overlapping Template Matching test is the number of occurrences of pre-specified target
 # strings. Both this test and the Non-overlapping Template Matching test use an m-bit
 # window to search for a specific m-bit pattern. As with the previous test, if the pattern is not found,
@@ -24,25 +24,15 @@ def probability( u, eta ):
         p = sum
     return p
 
-def overlapping_template_test( input, N = NUM_OF_BLOCKS, K = DEGREES_OF_FREEDOM, M = BLOCK_LENGTH ):
-    p_values = []
-    n = len( input )
-    if n < M * N:
-        return [0.]
-        # M = math.floor( n / N ) # too little data. Inputs of length at least M * N bits required ( recommended 1,000,000 )
-        
-    template = [1, 1, 1, 1, 1, 1, 1, 1, 1]
-    pi = [0.364091, 0.185659, 0.139381, 0.100571, 0.0704323, 0.139865]
-    m = len( template ) # should be 9 or 10 due to NIST manual 
-    
-    blocks = list()
-    for i in range( N ):
-        block = list()
-        for j in range( M ):
-            block.append( int( input[i * M + j], 2 ) )
-        blocks.append( block )
-        
-    v = [0 for _ in range( K + 1 )] 
+def generate_blocks( input, N, M ):
+    input_array = np.frombuffer( input.encode( 'utf-8' ), dtype = np.uint8 ) - ord( "0" )  
+    required_length = N * M
+    input_array = input_array[:required_length]
+    blocks = input_array.reshape( N, M )  
+    return blocks.tolist()  
+
+def count_template_occurrences( blocks, M, K, m, template ):
+    v = np.zeros( K + 1, dtype=int )
     for block in blocks:
         count = 0
         for position in range( M - m + 1 ):
@@ -52,9 +42,12 @@ def overlapping_template_test( input, N = NUM_OF_BLOCKS, K = DEGREES_OF_FREEDOM,
             v[K] += 1
         else:
             v[count] += 1
-         
+    return v
+
+def calculate_statistics( pi, K, N, M, m, v ):
     lambd = ( M - m + 1 ) / ( 2**m )
-    eta = lambd / 2.
+    eta = lambd / 2.0
+    
     sum = 0.0
     for i in range( K ): 
        pi[i] = probability( i, eta )
@@ -64,6 +57,21 @@ def overlapping_template_test( input, N = NUM_OF_BLOCKS, K = DEGREES_OF_FREEDOM,
     chi_squared = 0.0 
     for i in range( K + 1 ):
         chi_squared += ( ( v[i] - ( N * pi[i] ) )**2 / ( N * pi[i] ) )
-    p_value = ss.gammaincc(  5.0 / 2.0 , chi_squared / 2.0 ) 
+    p_value = ss.gammaincc(  5.0 / 2.0 , chi_squared / 2.0 )
+    return p_value
+
+def overlapping_template_test( input, N = NUM_OF_BLOCKS, K = DEGREES_OF_FREEDOM, M = BLOCK_LENGTH ):
+    n = len( input )
+    if n < M * N:
+        return [0.]
+      
+    p_values = []  
+    template = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+    m = len( template ) # should be 9 or 10 due to NIST manual 
+    pi = [0.364091, 0.185659, 0.139381, 0.100571, 0.0704323, 0.139865]
+    blocks = generate_blocks( input, N, M )
+    
+    v = count_template_occurrences( blocks, M, K, m, template )
+    p_value = calculate_statistics( pi, K, N, M, m, v )    
     p_values.append( p_value )
     return p_values

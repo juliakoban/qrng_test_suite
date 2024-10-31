@@ -15,20 +15,20 @@ from .nist.random_excursions import random_excursions_test
 from .nist.random_excursions_var import random_excursions_var_test
 
 nist_tests = [ 
-#               frequency_test,
-#               block_frequency_test,
-#               runs_test,
-#               longest_run_test,
-#               binary_matrix_rank_test,
-#               DFT_test,
+               frequency_test,
+               block_frequency_test,
+               runs_test,
+               longest_run_test,
+               binary_matrix_rank_test,
+               DFT_test,
                non_overlaping_template_test,
-#               overlapping_template_test,
-#               universal_test,
-#               linear_complexity_test,
-#               serial_test,
-#               approximate_entropy_test,
-#               cumulative_sums_test,
-#               random_excursions_test,
-#               random_excursions_var_test
+               overlapping_template_test,
+               universal_test,
+                linear_complexity_test,
+               serial_test,
+               approximate_entropy_test,
+               cumulative_sums_test,
+               random_excursions_test,
+               random_excursions_var_test
             ]
 diehard_tests = [ ]

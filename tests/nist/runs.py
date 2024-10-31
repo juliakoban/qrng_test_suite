@@ -7,11 +7,11 @@ import math
 # whether the oscillation between such zeros and ones is too fast or too slow. 
 
 def runs_test( input ):
-    p_values = []
     n = len( input )
     if n < 100: 
         return [0.]
     
+    p_values = []
     ones = input.count( '1' ) 
     pi = float( ones ) / n # pre run proportion
     tao = 2.0 / math.sqrt( n )

@@ -66,8 +66,9 @@ def produce_p_values( v_k, J ):
     
 def random_excursions_test( input ):
     n = len( input )
-    state_range = list( range( -4, 0 ) ) + list( range( 1, 5 ) )
     if n < 1000000: return [0.] 
+    
+    state_range = list( range( -4, 0 ) ) + list( range( 1, 5 ) )
     values = list( )
     for i in range( n ):
         values.append( 2 * int( input[i] ) - 1 )

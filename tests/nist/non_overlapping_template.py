@@ -24,13 +24,6 @@ def generate_blocks( input, N, M ):
     input_array = np.frombuffer( input.encode( 'utf-8' ), dtype = np.uint8 ) - ord( "0" )  
     blocks = input_array.reshape( N, M )  
     return blocks.tolist()  
-    #blocks = list()
-    #for i in range( N ):
-    #    block = list()
-    #    for j in range( M ):
-    #        block.append( int( input[i * M + j], 2 ) )
-    #    blocks.append( block )
-    #return blocks
 
 def count_template_occurrences( blocks, M,  template ):
     W = []
@@ -61,7 +54,7 @@ def non_overlaping_template_test( input, N = NUM_OF_BLOCKS ):
     if n < 1000:
         return [0.]
     
-    templates = load_templates_from_file( TEMPLATES_FILE ) 
+    templates = load_templates_from_file( SINGLE_TEMPLATE_FILE ) 
     M = math.floor( n / N ) # block length, M > 0.01 * N
     blocks = generate_blocks( input, N, M )
     

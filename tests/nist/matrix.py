@@ -43,13 +43,13 @@ def binary_rank( matrix, M = ROWS, Q = COLUMNS ):
     return rank   
 
 def binary_matrix_rank_test( input, M = ROWS, Q = COLUMNS ):
-    p_values = []
     MATRIX_SIZE = M * Q
     n = len( input )
     N  = int( math.floor( n / MATRIX_SIZE ) ) # number of blocks
     if N < 38: 
         return [0.]
     
+    p_values = []
     # compute the reference probabilities for FM, FMM and remainder 
     FM_prob, FMM_prob, R_prob = compute_probabilities( )
     # initialize counts for full rank, rank M-1, and lower rank matrices

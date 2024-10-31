@@ -30,10 +30,10 @@ def compute_p_value( n, z ):
     return p_value
 
 def cumulative_sums_test( input ):
-    p_values = []
     n = len( input )
     if n < 100: return [0.] 
     
+    p_values = []
     values = list( )
     for i in range( n ):
         values.append( 2 * int( input[i] ) - 1 )

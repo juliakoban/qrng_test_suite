@@ -7,8 +7,10 @@ import math
 
 def random_excursions_var_test( input ):
     n = len( input )
+    if n < 1000000: 
+        return [0.]
+    
     state_range = list( range( -9, 0 ) ) + list( range( 1, 10 ) )
-    if n < 1000000: return [0.]
     values = list( )
     for i in range( n ):
         values.append( 2 * int( input[i] ) - 1 )

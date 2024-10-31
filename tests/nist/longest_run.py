@@ -40,11 +40,11 @@ def calculate_chi_squared( vi, pi, N ):
     return sum( ( ( vi[i] - N * pi[i] )**2 ) / ( N * pi[i] ) for i in range( len( pi ) ) )
 
 def longest_run_test( input ):
-    p_values = []
     n = len( input )
     if n < 128:
         return [0.]
 
+    p_values = []
     M, K, N, intervals, pi = get_parameters( n )
     vi = np.zeros( K + 1 ) # frequencies νi of the longest runs of ones in each block; i - length of ones run
     N = math.floor( n / M ) # this is in NIST code but above N values are in the manual

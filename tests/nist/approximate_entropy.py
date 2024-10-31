@@ -18,10 +18,11 @@ def count_pattterns( input_prim, patterns, block_size ):
     return frequencies
 
 def approximate_entropy_test( input ):
-    p_values = []
     n = len( input )
-    M = 10
     if n < 1000000: return [0.] 
+    
+    M = 10
+    p_values = []
     c_m_i = list( )
     f_m_i = list( )
     for block_size in range( M, ( M + 2 ) ):
