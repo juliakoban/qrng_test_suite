@@ -1,5 +1,5 @@
 import numpy as np
-from .results_printer import write_nist_header, write_diehard_header, write_nist_result, write_diehard_result
+from .results_printer import write_nist_header, write_nist_result
 from scipy.stats import chisquare, kstest
 import math
 
@@ -67,5 +67,4 @@ def run_diehard_tests( tests, input, file ):
             
 def run_all_tests( nist_tests, diehard_tests, input, file ):
     run_nist_tests( nist_tests, input, file )
-    # run_diehard_tests( diehard_tests, input, file )
    

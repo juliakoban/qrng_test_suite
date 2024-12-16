@@ -31,5 +31,3 @@ nist_tests = [
                random_excursions_test,
                random_excursions_var_test
             ]
-
-diehard_tests = [ ]

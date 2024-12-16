@@ -7,8 +7,7 @@ OUTPUT_FILE_NIST = "./output/nistResults.txt"
 OUTPUT_FILE_DIEHARD = "./output/diehardResults.txt"
 
 TEST_SUITE_NAME = "DIEHARDEST TEST SUITE"
-HEADER_DESCRIPTION_NIST = "PART 1: NIST TESTS RESULTS FOR FILE "
-HEADER_DESCRIPTION_DIEHARD = "PART 2: DIEHARD TESTS RESULTS FOR FILE "
+HEADER_DESCRIPTION_NIST = "TESTS RESULTS FOR FILE "
 TIME_LABEL = "EXECUTING TIME: "
 
 def generate_header( ):
@@ -21,11 +20,6 @@ def generate_nist_header( file ):
     header_output  = HEADER_DESCRIPTION_NIST + file + "\n"  
     header_output += "-" * HEADER_LENGTH + "\n" 
     header_output += " ".join(f"{label:>2} |" for label in HEADER_LABELS) + "\n" 
-    header_output += "-" * HEADER_LENGTH + "\n" 
-    return header_output
-
-def generate_diehard_header( file ):
-    header_output  = HEADER_DESCRIPTION_DIEHARD + file + "\n"  
     header_output += "-" * HEADER_LENGTH + "\n" 
     return header_output
 
@@ -45,27 +39,14 @@ def nist_test_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable, 
     final_output += "-" * HEADER_LENGTH + "\n" 
     return final_output
 
-def diehard_test_result( p_value_ks, test_name ):
-    final_output = f"{p_value_ks} | { test_name } |"
-    return final_output
-
 def write_nist_header( file ):
     with open( OUTPUT_FILE_NIST, 'w' ) as f:
         f.write( generate_header( ) )
         f.write( generate_nist_header( file ) )
-
-def write_diehard_header( file ):
-    with open( OUTPUT_FILE_DIEHARD, 'w' ) as f:
-        f.write( generate_header( ) )
-        f.write( generate_diehard_header( file ) )
     
 def write_nist_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable, test_name ):
     with open( OUTPUT_FILE_NIST, 'a' ) as f:
         f.write( nist_test_result( hist, p_value_chi, p_value_ks, proportion, is_acceptable, test_name ) )
-        
-def write_diehard_result( p_value_ks, test_name ):
-    with open( OUTPUT_FILE_DIEHARD, 'a' ) as f:
-        f.write( diehard_test_result( p_value_ks, test_name ) )
         
 def write_executing_time( time ):
     final_output = TIME_LABEL + f"{time:.2f} s" +"\n"
